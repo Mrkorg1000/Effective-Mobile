@@ -1,0 +1,40 @@
+version: '3.1'
+
+services:
+  
+  db:
+    container_name: db
+    build:
+        context: ./Docker
+        dockerfile: db.Dockerfile
+    restart: always 
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: eff_mobile_db
+    
+    ports:
+      - 5432:5432
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+
+     
+  app:
+    container_name: eff_mobile_app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    
+    env_file:
+      - .env
+    command: uvicorn main:app --host 0.0.0.0 --port 8000
+    restart: always    
+    ports:
+      - 9999:8000
+    depends_on:
+      - db
+      - adminer

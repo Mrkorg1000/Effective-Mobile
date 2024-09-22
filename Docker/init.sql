@@ -1,0 +1,3 @@
+ALTER USER postgres WITH ENCRYPTED PASSWORD 'postgres';
+CREATE DATABASE eff_mobile_db;
+GRANT ALL PRIVILIGES ON DATABASE eff_mobile_db TO postgres;
